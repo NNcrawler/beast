@@ -14,7 +14,6 @@ cache:
 stages:
   - test
   - name: deploy
-    if: branch == master
 
 docker_login:
   before_script: &docker_login
@@ -38,6 +37,7 @@ jobs:
     name: build docker
     script:
     - gradle assemble
+    - curl http://search.maven.org/remotecontent?filepath=org/jolokia/jolokia-jvm/1.6.0/jolokia-jvm-1.6.0-agent.jar -o ./build/libs/jolokia-jvm-agent.jar
     - docker build -t gojektech/beast:latest .
     - docker images
     - docker push gojektech/beast:latest
